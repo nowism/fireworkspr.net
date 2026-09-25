@@ -193,9 +193,9 @@
       fCompany.innerHTML += companies.map((c) => `<option>${esc(c)}</option>`).join('');
       const years = [...new Set(all.map(year).filter(Boolean))].sort().reverse();
       fYear.innerHTML += years.map((y) => `<option>${y}</option>`).join('');
+      const openId = new URLSearchParams(location.search).get('r');
       readState();
       render();
-      const openId = new URLSearchParams(location.search).get('r');
       const linked = openId && all.find((x) => x.id === openId);
       if (linked) openReader(linked);
     })
