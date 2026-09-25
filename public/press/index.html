@@ -46,6 +46,7 @@
       <option value="date-desc">Newest first</option>
       <option value="date-asc">Oldest first</option>
       <option value="title">Title A–Z</option>
+      <option value="company">Company A–Z</option>
     </select>
   </div>
 
@@ -62,7 +63,21 @@
     </div>
   </div>
 
-  <ol class="results" id="results" aria-live="polite"></ol>
+  <div class="table-wrap">
+    <table class="pr-table">
+      <thead>
+        <tr>
+          <th scope="col" class="c-sel"><span class="visually-hidden">Select</span></th>
+          <th scope="col" class="c-date"><button type="button" class="sort" data-sort="date">Date</button></th>
+          <th scope="col" class="c-title"><button type="button" class="sort" data-sort="title">Press release</button></th>
+          <th scope="col" class="c-org"><button type="button" class="sort" data-sort="company">Company</button></th>
+          <th scope="col" class="c-name">Listed as</th>
+          <th scope="col" class="c-links">Links</th>
+        </tr>
+      </thead>
+      <tbody id="results" aria-live="polite"></tbody>
+    </table>
+  </div>
   <p class="empty" id="empty" hidden>No press releases match that search.</p>
 </main>
 

@@ -15,20 +15,43 @@ def norm(s):
     return re.sub(r"[^a-z0-9]+", " ", (s or "").lower()).strip()
 
 
+NAME_RE = re.compile(r"Amy (?:Burke )?Bessette|Amy Burke")
+# Research notes the agents left in summaries; keep them off the public page.
+NOTE_RE = re.compile(
+    r"\s*(?:(?:IMPORTANT|Note):.*$"
+    r"|Her name appears as press contact.*$"
+    r"|(?:Co-contacts?|Media contacts?|Press contact|Listed under)[: ].*$"
+    r"|Sole press contact\.?)", re.S)
+
+
+def clean(r):
+    m = NAME_RE.search(r["name_as_listed"])
+    if m:
+        r["name_as_listed"] = m.group(0)
+    summary = r["summary"]
+    note = NOTE_RE.search(summary)
+    if note:
+        r["note"] = note.group(0).strip()
+        r["summary"] = summary[:note.start()].strip()
+    else:
+        r["note"] = ""
+    return r
+
+
 def main():
     merged = {}
     for path in sorted(glob.glob(os.path.join(ROOT, "data", "press", "*.json"))):
         with open(path) as f:
             data = json.load(f)
         for r in data.get("verified", []):
-            r = {k: (r.get(k) or "") for k in FIELDS}
+            r = clean({k: (r.get(k) or "") for k in FIELDS})
             if not r["title"]:
                 continue
             key = norm(r["url"]) or f"{norm(r['title'])}|{r['date']}"
             alt = f"{norm(r['title'])}|{r['date'][:7]}"
             existing = merged.get(key) or merged.get(alt)
             if existing:
-                for k in FIELDS:  # keep the richer value
+                for k in FIELDS + ["note"]:  # keep the richer value
                     if len(r[k]) > len(existing[k]):
                         existing[k] = r[k]
                 continue

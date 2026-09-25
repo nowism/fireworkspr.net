@@ -57,23 +57,29 @@
     const s = fSort.value;
     shown.sort((a, b) =>
       s === 'title' ? a.title.localeCompare(b.title)
+      : s === 'company' ? (a.client || a.company).localeCompare(b.client || b.company) || (b.date || '').localeCompare(a.date || '')
       : s === 'date-asc' ? (a.date || '9999').localeCompare(b.date || '9999')
       : (b.date || '').localeCompare(a.date || ''));
 
     results.innerHTML = shown.map((r) => `
-      <li class="result${selected.has(r.id) ? ' selected' : ''}" data-id="${esc(r.id)}">
-        <input type="checkbox" aria-label="Select: ${esc(r.title)}" ${selected.has(r.id) ? 'checked' : ''}>
-        <div>
-          <p class="meta">${esc(fmtDate(r.date))} · ${esc(org(r))}${r.text ? '' : '<span class="tag">link only</span>'}</p>
-          <h2><button type="button">${highlight(r.title, terms)}</button></h2>
+      <tr class="result${selected.has(r.id) ? ' selected' : ''}" data-id="${esc(r.id)}">
+        <td class="c-sel"><input type="checkbox" aria-label="Select: ${esc(r.title)}" ${selected.has(r.id) ? 'checked' : ''}></td>
+        <td class="c-date">${esc(fmtDate(r.date))}</td>
+        <td class="c-title">
+          <button type="button" class="open">${highlight(r.title, terms)}</button>
           ${r.summary ? `<p class="summary">${highlight(r.summary, terms)}</p>` : ''}
-          <p class="links">
-            ${r.url ? `<a href="${esc(r.url)}" target="_blank" rel="noopener">Original</a>` : ''}
-            ${r.archive_url ? `<a href="${esc(r.archive_url)}" target="_blank" rel="noopener">Archived copy</a>` : ''}
-            <span>Listed as “${esc(r.name_as_listed)}”, ${esc(r.role)}</span>
-          </p>
-        </div>
-      </li>`).join('');
+        </td>
+        <td class="c-org">${esc(r.client || r.company)}${r.client && r.client !== r.company ? `<span class="via">via ${esc(r.company)}</span>` : ''}</td>
+        <td class="c-name">${esc(r.name_as_listed)}<span class="via">${esc(r.role)}</span></td>
+        <td class="c-links">
+          ${r.url ? `<a href="${esc(r.url)}" target="_blank" rel="noopener">Original</a>` : ''}
+          ${r.archive_url ? `<a href="${esc(r.archive_url)}" target="_blank" rel="noopener">Archive</a>` : ''}
+        </td>
+      </tr>`).join('');
+    const sortState = { 'date-desc': ['date', 'descending'], 'date-asc': ['date', 'ascending'], title: ['title', 'ascending'], company: ['company', 'ascending'] }[s];
+    document.querySelectorAll('.pr-table th .sort').forEach((btn) => {
+      btn.closest('th').setAttribute('aria-sort', sortState && sortState[0] === btn.dataset.sort ? sortState[1] : 'none');
+    });
 
     empty.hidden = shown.length > 0 || all.length === 0;
     countEl.textContent = `${shown.length} of ${all.length} release${all.length === 1 ? '' : 's'}`;
@@ -150,9 +156,17 @@
       e.target.checked ? selected.add(r.id) : selected.delete(r.id);
       li.classList.toggle('selected', e.target.checked);
       updateSelection();
-    } else if (e.target.closest('h2 button')) {
+    } else if (e.target.closest('button.open')) {
       openReader(r);
     }
+  });
+
+  document.querySelector('.pr-table thead').addEventListener('click', (e) => {
+    const b = e.target.closest('.sort');
+    if (!b) return;
+    const k = b.dataset.sort;
+    fSort.value = k === 'date' ? (fSort.value === 'date-desc' ? 'date-asc' : 'date-desc') : k;
+    render();
   });
 
   chips.addEventListener('click', (e) => {
