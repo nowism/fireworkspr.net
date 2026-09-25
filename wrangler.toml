@@ -7,8 +7,11 @@ compatibility_date = "2026-09-01"
 workers_dev = true
 preview_urls = true
 
-# Custom domains (www.fireworkspr.net and fireworkspr.net) are attached in the
-# dashboard: Worker -> Domains -> Add Domain, once the zone is Active.
+# Serve on the real domain (zone is active on Cloudflare). The apex redirects to www.
+routes = [
+  { pattern = "www.fireworkspr.net", custom_domain = true },
+  { pattern = "fireworkspr.net", custom_domain = true }
+]
 
 [assets]
 directory = "./public"
