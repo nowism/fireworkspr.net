@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="en-US">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Contact — Fireworks PR San Francisco</title>
+<meta name="description" content="Get in touch with Fireworks PR, San Francisco.">
+<link rel="canonical" href="https://www.fireworkspr.net/contact/">
+<link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/site.css">
+<meta property="og:site_name" content="Fireworks PR San Francisco">
+<meta property="og:title" content="Contact — Fireworks PR San Francisco">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://www.fireworkspr.net/contact/">
+<meta property="og:image" content="https://www.fireworkspr.net/assets/logo.png">
+<meta name="twitter:card" content="summary">
+</head>
+<body>
+<header class="site-header">
+  <a class="logo" href="/"><img src="/assets/logo.png" alt="Fireworks Communications" width="359" height="80"></a>
+  <nav aria-label="Main">
+    <a class="nav-link" href="/press/">Press</a>
+    <a class="btn btn-header" href="/contact/" aria-current="page">Contact</a>
+  </nav>
+</header>
+
+<main>
+  <section class="split top">
+    <div>
+      <h1 class="headline"><img src="/assets/boom.png" alt="BOOM" width="1319" height="420"></h1>
+      <p class="lede small">San Francisco-based Fireworks PR works with Silicon Valley’s finest and the finest all around the world.</p>
+    </div>
+
+    <form class="form" id="contact-form" method="post" action="/api/contact">
+      <fieldset>
+        <legend>Name</legend>
+        <div class="row">
+          <div>
+            <label class="sub" for="first">First Name <span class="req">(required)</span></label>
+            <input type="text" id="first" name="first" autocomplete="given-name" required>
+          </div>
+          <div>
+            <label class="sub" for="last">Last Name <span class="req">(required)</span></label>
+            <input type="text" id="last" name="last" autocomplete="family-name" required>
+          </div>
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <label class="field-label" for="email">Email <span class="req">(required)</span></label>
+        <input type="email" id="email" name="email" autocomplete="email" required>
+        <label class="check"><input type="checkbox" name="newsletter" value="yes"> Sign up for news and updates</label>
+      </fieldset>
+
+      <fieldset>
+        <label class="field-label" for="message">Message</label>
+        <textarea id="message" name="message"></textarea>
+      </fieldset>
+
+      <label class="hp" aria-hidden="true">Leave this empty <input type="text" name="website" tabindex="-1" autocomplete="off"></label>
+
+      <button class="btn btn-small" type="submit">Submit</button>
+      <p class="form-status" id="form-status" role="status"></p>
+    </form>
+  </section>
+
+  <svg class="wave" viewBox="0 0 1440 90" preserveAspectRatio="none" aria-hidden="true">
+    <path d="M0 50 C 200 20, 300 0, 420 0 C 620 0, 820 60, 1080 80 C 1250 80, 1350 50, 1440 40 L1440 90 L0 90 Z" fill="#5c0b41"/>
+  </svg>
+</main>
+
+<footer class="site-footer">
+  <span>Fireworks PR</span>
+  <a href="mailto:info@fireworkspr.net">info@fireworkspr.net</a>
+</footer>
+
+<script>
+  const form = document.getElementById('contact-form');
+  const status = document.getElementById('form-status');
+  if (new URLSearchParams(location.search).has('sent')) status.textContent = 'Thank you! We’ll be in touch soon.';
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    status.className = 'form-status';
+    status.textContent = 'Sending…';
+    try {
+      const res = await fetch(form.action, { method: 'POST', body: new FormData(form), headers: { Accept: 'application/json' } });
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok) throw new Error(data.error || 'Something went wrong.');
+      form.reset();
+      status.textContent = 'Thank you! We’ll be in touch soon.';
+    } catch (err) {
+      status.className = 'form-status error';
+      status.innerHTML = '';
+      status.append(err.message + ' You can also email ');
+      const a = document.createElement('a');
+      a.href = 'mailto:info@fireworkspr.net';
+      a.textContent = 'info@fireworkspr.net';
+      status.append(a, '.');
+    }
+  });
+</script>
+</body>
+</html>
