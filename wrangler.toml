@@ -1,19 +1,20 @@
 # Cloudflare Worker + static assets for www.fireworkspr.net
-name = "fireworkspr"
+name = "fireworkspr-net"
 main = "src/worker.js"
 compatibility_date = "2026-09-01"
+
+# Preview at https://fireworkspr-net.<account>.workers.dev before DNS moves.
+workers_dev = true
+preview_urls = true
+
+# Custom domains (www.fireworkspr.net and fireworkspr.net) are attached in the
+# dashboard: Worker -> Domains -> Add Domain, once the zone is Active.
 
 [assets]
 directory = "./public"
 binding = "ASSETS"
 not_found_handling = "404-page"
 run_worker_first = true  # so the apex -> www redirect runs for every path
-
-# Serve on the real domain once DNS is on Cloudflare.
-routes = [
-  { pattern = "www.fireworkspr.net", custom_domain = true },
-  { pattern = "fireworkspr.net", custom_domain = true }
-]
 
 # Contact form delivery. Needs Email Routing enabled on fireworkspr.net with
 # this address verified as a destination (see README). All other mail to

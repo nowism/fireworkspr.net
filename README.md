@@ -42,7 +42,8 @@ npx wrangler dev
    then under *Routing rules* turn on **Catch-all → Send to an email → amybessette@icloud.com**.
    Every address @fireworkspr.net (info@, amy@, …) then forwards there, and so do contact-form submissions.
 4. **Deploy.** Cloudflare → *Workers & Pages* → *Create* → *Import a repository* → pick this repo.
-   Leave the build command empty. It uses `wrangler.toml`, which attaches both `fireworkspr.net` and `www.fireworkspr.net`.
+   Name the Worker `fireworkspr-net` (it must match `wrangler.toml`) and leave the build command empty.
+   Then on the Worker's *Domains* tab, click *Add Domain* for `fireworkspr.net` and again for `www.fireworkspr.net`.
    Every push to the production branch redeploys automatically.
 5. **Cancel Squarespace** only after `https://www.fireworkspr.net` is serving from Cloudflare.
    If the domain is registered at Squarespace, transfer it to Cloudflare Registrar first (or keep renewing it there).
