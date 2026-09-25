@@ -37,10 +37,10 @@ npx wrangler dev
    Delete the Squarespace `A`/`CNAME` records for `@` and `www`.
 2. **Point the nameservers.** At your registrar (Squarespace Domains, if the domain was bought there),
    replace the nameservers with the two Cloudflare gives you. Wait for Cloudflare to say *Active*.
-3. **Enable Email Routing** (for the contact form): Cloudflare → fireworkspr.net → *Email* → *Email Routing*,
-   and verify `info@fireworkspr.net` as a destination address.
-   (Skip this if info@ is hosted elsewhere, e.g. Google Workspace. In that case tell Claude, and the form
-   can use another delivery method.)
+3. **Enable Email Routing.** Cloudflare → fireworkspr.net → *Email* → *Email Routing* → *Get started*.
+   Add and verify `amybessette@icloud.com` as a destination address, let Cloudflare add its MX/TXT records,
+   then under *Routing rules* turn on **Catch-all → Send to an email → amybessette@icloud.com**.
+   Every address @fireworkspr.net (info@, amy@, …) then forwards there, and so do contact-form submissions.
 4. **Deploy.** Cloudflare → *Workers & Pages* → *Create* → *Import a repository* → pick this repo.
    Leave the build command empty. It uses `wrangler.toml`, which attaches both `fireworkspr.net` and `www.fireworkspr.net`.
    Every push to the production branch redeploys automatically.

@@ -15,12 +15,13 @@ routes = [
   { pattern = "fireworkspr.net", custom_domain = true }
 ]
 
-# Contact form delivery (needs Email Routing enabled on fireworkspr.net
-# and the destination address verified — see README).
+# Contact form delivery. Needs Email Routing enabled on fireworkspr.net with
+# this address verified as a destination (see README). All other mail to
+# @fireworkspr.net is forwarded there by an Email Routing catch-all rule.
 [[send_email]]
 name = "CONTACT_EMAIL"
-destination_address = "info@fireworkspr.net"
+destination_address = "amybessette@icloud.com"
 
 [vars]
-CONTACT_TO = "info@fireworkspr.net"
+CONTACT_TO = "amybessette@icloud.com"
 CONTACT_FROM = "website@fireworkspr.net"
