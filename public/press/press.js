@@ -161,7 +161,7 @@
     }
   });
 
-  document.querySelector('.pr-table thead').addEventListener('click', (e) => {
+  document.querySelector('.pr-table thead')?.addEventListener('click', (e) => {
     const b = e.target.closest('.sort');
     if (!b) return;
     const k = b.dataset.sort;

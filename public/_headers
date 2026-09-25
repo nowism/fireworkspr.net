@@ -5,3 +5,12 @@
 
 /assets/*
   Cache-Control: public, max-age=604800
+
+/
+  Cache-Control: no-cache
+
+/contact/*
+  Cache-Control: no-cache
+
+/press/*
+  Cache-Control: no-cache
