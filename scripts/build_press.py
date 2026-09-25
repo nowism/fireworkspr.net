@@ -59,6 +59,11 @@ def main():
             merged[key] = merged[alt] = r
     releases = sorted({id(r): r for r in merged.values()}.values(),
                       key=lambda r: r["date"], reverse=True)
+    # Images found in each release (data/press-images.json: {id: [{src, alt}]}).
+    img_path = os.path.join(ROOT, "data", "press-images.json")
+    images = json.load(open(img_path)) if os.path.exists(img_path) else {}
+    for r in releases:
+        r["images"] = [i for i in images.get(r["id"], []) if i.get("src")]
     out = os.path.join(ROOT, "public", "press", "releases.json")
     with open(out, "w") as f:
         json.dump({"releases": releases}, f, ensure_ascii=False, indent=1)

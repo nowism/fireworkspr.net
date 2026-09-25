@@ -105,8 +105,22 @@
       r.archive_url && `<a href="${esc(r.archive_url)}" target="_blank" rel="noopener">Archived copy</a>`,
       r.source && `<span>Source: ${esc(r.source)}</span>`,
     ].filter(Boolean).join('');
+    const gallery = $('r-images');
+    gallery.innerHTML = '';
+    for (const im of r.images || []) {
+      const fig = document.createElement('figure');
+      const img = Object.assign(document.createElement('img'), { src: im.src, alt: im.alt || '', loading: 'lazy', referrerPolicy: 'no-referrer' });
+      img.onerror = () => fig.remove();
+      const link = Object.assign(document.createElement('a'), { href: im.src, target: '_blank', rel: 'noopener' });
+      link.append(img);
+      fig.append(link);
+      if (im.alt) fig.append(Object.assign(document.createElement('figcaption'), { textContent: im.alt }));
+      gallery.append(fig);
+    }
+    gallery.hidden = !gallery.children.length;
     $('r-text').textContent = r.text || r.summary || 'Full text not stored. Use the links above to read the original.';
     $('reader').showModal();
+    const u = new URL(location.href); u.searchParams.set('r', r.id); history.replaceState(null, '', u);
     $('reader').scrollTop = 0;
   }
 
@@ -161,6 +175,7 @@
   });
 
   $('reader').addEventListener('click', (e) => { if (e.target === e.currentTarget) e.currentTarget.close(); });
+  $('reader').addEventListener('close', () => writeState());
 
   let t;
   q.addEventListener('input', () => { clearTimeout(t); t = setTimeout(render, 120); });
@@ -180,6 +195,9 @@
       fYear.innerHTML += years.map((y) => `<option>${y}</option>`).join('');
       readState();
       render();
+      const openId = new URLSearchParams(location.search).get('r');
+      const linked = openId && all.find((x) => x.id === openId);
+      if (linked) openReader(linked);
     })
     .catch(() => { countEl.textContent = 'Could not load the archive.'; });
 })();

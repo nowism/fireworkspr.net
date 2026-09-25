@@ -76,6 +76,14 @@ dialog .close { position: absolute; top: 14px; right: 18px; font-size: 2rem; lin
 .r-meta { font-size: .7rem; text-transform: uppercase; letter-spacing: .16em; margin: 0; }
 #r-title { font-family: var(--serif); font-weight: 400; font-size: clamp(1.8rem, 3.4vw, 2.8rem); line-height: 1.05; letter-spacing: -.015em; margin: 12px 0 14px; }
 .r-links { font-size: .9rem; display: flex; gap: 16px; flex-wrap: wrap; margin: 0 0 20px; }
+.r-images {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 16px;
+  margin: 0 0 24px; padding-top: 20px; border-top: 1px solid rgba(92,11,65,.25);
+}
+.r-images figure { margin: 0; }
+.r-images a { display: block; background: #fff; }
+.r-images img { width: 100%; height: 180px; object-fit: scale-down; display: block; }
+.r-images figcaption { font-size: .72rem; line-height: 1.4; margin-top: 6px; opacity: .75; }
 .r-text { white-space: pre-wrap; font-size: 1rem; line-height: 1.7; max-width: 68ch; border-top: 1px solid rgba(92,11,65,.25); padding-top: 18px; }
 
 @media (max-width: 800px) {
