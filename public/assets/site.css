@@ -5,7 +5,7 @@
   --pink-dark: #c86a97;
   --white: #ffffff;
   --gutter: clamp(16px, 2vw, 30px);
-  --radius: 40px;
+  --radius: 0;
   --serif: "Instrument Serif", "Iowan Old Style", Georgia, serif;
   --sans: "Instrument Sans", "Helvetica Neue", Arial, sans-serif;
 }
@@ -76,22 +76,22 @@ p { text-wrap: pretty; }
 
 .btn {
   display: inline-block;
-  background: var(--pink);
-  color: var(--white);
+  background: var(--claret);
+  color: var(--cream);
   border: 0;
-  border-radius: 300px;
+  border-radius: 0;
   font: inherit;
   cursor: pointer;
   text-decoration: none;
   transition: background .15s ease;
 }
-.btn:hover { background: var(--pink-dark); }
+.btn:hover { background: #3f0729; }
 
 .btn-header { font-size: .8rem; padding: 18px 34px; }
 
 .btn-small {
-  font-size: .78rem;
-  padding: 20px 40px;
+  font-size: .74rem;
+  padding: 18px 34px;
 }
 
 /* ---------- Main layouts ---------- */
@@ -125,7 +125,7 @@ main { flex: 1; }
   width: 100%;
   border-radius: var(--radius);
   object-fit: cover;
-  aspect-ratio: 686 / 912;
+  aspect-ratio: 686 / 817;
 }
 
 /* ---------- Form ---------- */
@@ -139,13 +139,15 @@ main { flex: 1; }
   font: inherit;
   color: var(--claret);
   background: transparent;
-  border: 1px solid var(--claret);
-  border-radius: 8px;
-  padding: 8px 10px;
+  border: 0;
+  border-bottom: 1px solid var(--claret);
+  border-radius: 0;
+  padding: 8px 0;
 }
-.form textarea { min-height: 100px; resize: vertical; }
+.form textarea { min-height: 110px; resize: vertical; border: 1px solid var(--claret); padding: 10px 12px; }
+.form input:focus, .form textarea:focus { outline: none; border-color: var(--pink-dark); box-shadow: 0 1px 0 var(--pink-dark); }
 .form .check { display: flex; align-items: center; gap: 10px; font-size: .85rem; margin-top: 8px; }
-.form .check input { width: 20px; height: 20px; accent-color: var(--claret); }
+.form .check input { width: 16px; height: 16px; accent-color: var(--claret); }
 .form .hp { position: absolute; left: -9999px; }
 .form-status { margin-top: 16px; font-size: 1rem; }
 .form-status.error { color: #a0122c; }
@@ -174,7 +176,7 @@ main { flex: 1; }
   .site-header .logo img { width: 100%; max-width: 220px; }
   .site-header nav { gap: 12px; flex: none; }
   .nav-link { font-size: .72rem; }
-  .btn-header { font-size: .72rem; padding: 13px 20px; }
+  .site-header nav { gap: 18px; }
   .form .row { grid-template-columns: 1fr; }
   .site-footer { flex-direction: column; }
 }

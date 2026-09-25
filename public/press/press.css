@@ -12,19 +12,11 @@
 .toolbar { display: grid; grid-template-columns: 1fr auto auto auto; gap: 10px; }
 .toolbar input, .toolbar select {
   font: inherit; color: var(--claret);
-  background: #f4f4e2; border: 1px solid var(--claret); border-radius: 999px;
-  padding: 12px 18px; min-width: 0;
+  background: transparent; border: 0; border-bottom: 1px solid var(--claret); border-radius: 0;
+  padding: 10px 2px; min-width: 0;
 }
-.toolbar input:focus, .toolbar select:focus { outline: 2px solid var(--pink); outline-offset: 2px; }
-
-.chips { display: flex; flex-wrap: wrap; gap: 8px; margin: 16px 0 8px; }
-.chip {
-  font: inherit; font-size: .85rem; cursor: pointer;
-  border: 1px solid var(--claret); background: transparent; color: var(--claret);
-  border-radius: 999px; padding: 6px 14px;
-}
-.chip[aria-pressed="true"] { background: var(--claret); color: var(--cream); }
-.chip .n { opacity: .7; margin-left: 4px; }
+.toolbar input:focus, .toolbar select:focus { outline: none; border-bottom-color: var(--pink-dark); box-shadow: 0 1px 0 var(--pink-dark); }
+.toolbar { gap: 28px; margin-bottom: 20px; }
 
 .selection-bar {
   position: sticky; top: 0; z-index: 2;
@@ -33,11 +25,16 @@
   padding: 12px 0; margin-top: 8px;
 }
 .selection-bar .check { display: flex; align-items: center; gap: 10px; font-size: .95rem; }
-.selection-bar input[type="checkbox"], .result input[type="checkbox"] { width: 20px; height: 20px; accent-color: var(--claret); flex: none; }
+.selection-bar input[type="checkbox"], .result input[type="checkbox"] { width: 16px; height: 16px; accent-color: var(--claret); flex: none; }
 .sel-actions { display: flex; align-items: center; flex-wrap: wrap; gap: 8px; font-size: .9rem; }
-.btn-tiny { font-size: .66rem; padding: 9px 16px; }
-.btn-tiny:disabled { opacity: .45; cursor: not-allowed; }
-.btn-tiny.outline { background: transparent; color: var(--claret); border: 1px solid var(--claret); }
+.sel-actions { gap: 22px; }
+.link-btn {
+  all: unset; cursor: pointer; font-size: .68rem; font-weight: 500; letter-spacing: .16em; text-transform: uppercase;
+  text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 5px;
+}
+.link-btn:hover { color: var(--pink-dark); }
+.link-btn:disabled { opacity: .3; cursor: default; text-decoration: none; }
+.link-btn:focus-visible { outline: 1px solid var(--claret); outline-offset: 4px; }
 
 .table-wrap { width: 100%; }
 .pr-table { width: 100%; border-collapse: collapse; font-size: .9rem; font-variant-numeric: tabular-nums lining-nums; }
@@ -50,8 +47,7 @@
 .pr-table th[aria-sort="ascending"] .sort::after { content: " ↑"; opacity: 1; }
 .pr-table th[aria-sort="descending"] .sort::after { content: " ↓"; opacity: 1; }
 .pr-table td { padding: 14px 10px; border-bottom: 1px solid rgba(92, 11, 65, .2); vertical-align: top; }
-.pr-table tr.selected td { background: rgba(215, 127, 169, .14); }
-.pr-table tbody tr:hover td { background: rgba(215, 127, 169, .08); }
+.pr-table tr.selected td { background: rgba(92, 11, 65, .06); }
 .c-sel { width: 36px; }
 .c-date { white-space: nowrap; width: 120px; font-size: .78rem; letter-spacing: .06em; text-transform: uppercase; padding-top: 19px !important; }
 .c-org, .c-name { width: 160px; }
@@ -64,15 +60,15 @@
 }
 .pr-table .open:hover, .pr-table .open:focus-visible { text-decoration-color: var(--pink); }
 .pr-table .summary { margin: 8px 0 0; font-size: .86rem; line-height: 1.55; opacity: .8; max-width: 62ch; }
-.result input[type="checkbox"] { width: 20px; height: 20px; accent-color: var(--claret); }
+.result input[type="checkbox"] { width: 16px; height: 16px; accent-color: var(--claret); }
 
-mark { background: rgba(215, 127, 169, .45); color: inherit; border-radius: 3px; }
+mark { background: rgba(215, 127, 169, .4); color: inherit; }
 
 .empty { font-size: 1.1rem; padding: 40px 0; }
 
 dialog#reader {
   width: min(860px, calc(100vw - 32px)); max-height: calc(100vh - 48px);
-  border: 0; border-radius: 24px; padding: 36px clamp(20px, 4vw, 48px);
+  border: 1px solid var(--claret); border-radius: 0; padding: 36px clamp(20px, 4vw, 48px);
   background: #f7f7e8; color: var(--claret);
 }
 dialog#reader::backdrop { background: rgba(40, 5, 28, .6); }

@@ -1,7 +1,7 @@
 (() => {
   const $ = (id) => document.getElementById(id);
   const q = $('q'), fCompany = $('f-company'), fYear = $('f-year'), fSort = $('f-sort');
-  const results = $('results'), empty = $('empty'), chips = $('chips');
+  const results = $('results'), empty = $('empty');
   const selectAll = $('select-all'), countEl = $('count'), selCount = $('sel-count');
   const actionBtns = ['export-csv', 'export-json', 'copy-links', 'clear-sel'].map($);
 
@@ -70,7 +70,7 @@
           ${r.summary ? `<p class="summary">${highlight(r.summary, terms)}</p>` : ''}
         </td>
         <td class="c-org">${esc(r.client || r.company)}${r.client && r.client !== r.company ? `<span class="via">via ${esc(r.company)}</span>` : ''}</td>
-        <td class="c-name">${esc(r.name_as_listed)}<span class="via">${esc(r.role)}</span></td>
+        <td class="c-name">${esc(r.name_as_listed)}</td>
         <td class="c-links">
           ${r.url ? `<a href="${esc(r.url)}" target="_blank" rel="noopener">Original</a>` : ''}
           ${r.archive_url ? `<a href="${esc(r.archive_url)}" target="_blank" rel="noopener">Archive</a>` : ''}
@@ -82,19 +82,10 @@
     });
 
     empty.hidden = shown.length > 0 || all.length === 0;
-    countEl.textContent = `${shown.length} of ${all.length} release${all.length === 1 ? '' : 's'}`;
+    countEl.textContent = shown.length === all.length ? `${all.length} releases` : `${shown.length} of ${all.length} releases`;
     if (all.length === 0) countEl.textContent = 'The archive is being compiled. Check back soon.';
     updateSelection();
-    renderChips();
     writeState();
-  }
-
-  function renderChips() {
-    const counts = {};
-    for (const r of all) counts[r.company] = (counts[r.company] || 0) + 1;
-    chips.innerHTML = Object.keys(counts).sort().map((c) =>
-      `<button type="button" class="chip" data-company="${esc(c)}" aria-pressed="${fCompany.value === c}">${esc(c)}<span class="n">${counts[c]}</span></button>`
-    ).join('');
   }
 
   function updateSelection() {
@@ -107,7 +98,7 @@
   }
 
   function openReader(r) {
-    $('r-meta').textContent = `${fmtDate(r.date)} · ${org(r)}`;
+    $('r-meta').textContent = `${fmtDate(r.date)}, ${org(r)}`;
     $('r-title').textContent = r.title;
     $('r-links').innerHTML = [
       r.url && `<a href="${esc(r.url)}" target="_blank" rel="noopener">View original</a>`,
@@ -166,13 +157,6 @@
     if (!b) return;
     const k = b.dataset.sort;
     fSort.value = k === 'date' ? (fSort.value === 'date-desc' ? 'date-asc' : 'date-desc') : k;
-    render();
-  });
-
-  chips.addEventListener('click', (e) => {
-    const c = e.target.closest('.chip');
-    if (!c) return;
-    fCompany.value = fCompany.value === c.dataset.company ? '' : c.dataset.company;
     render();
   });
 
