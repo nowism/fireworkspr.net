@@ -11,7 +11,8 @@ It's a static site in `public/` served by a small Cloudflare Worker (`src/worker
 
 | Path | What |
 |---|---|
-| `/` | Home (KABOOM hero + portrait) |
+| `/` | Home: positioning, services, how we work, why partner, team teaser |
+| `/about/` | Amy Burke Bessette bio |
 | `/contact/` | Contact form |
 | `/press/` | Searchable press release archive (data: `public/press/releases.json`) |
 
