@@ -309,3 +309,6 @@ h1, h2, h3, .display, .h2, .lede, .pull, .eyebrow, .kicker, .role, .nav-link, .t
 .display .line { display: block; }
 .nw { white-space: nowrap; }
 .bio-head .portrait img { aspect-ratio: 1140 / 1380; }
+
+.contact-direct { margin-top: 2rem; font-size: .95rem; }
+.contact-direct a { color: var(--red); text-underline-offset: 4px; }
