@@ -302,3 +302,10 @@ h1, h2, h3, .display, .h2, .lede, .pull, .eyebrow, .kicker, .role, .nav-link, .t
 ::selection { background: var(--red); color: var(--ivory); }
 .band, .band h2, .band .eyebrow, .band .kicker, .band .text-link { color: var(--ivory); }
 .band .h2 em { color: var(--gold); }
+
+/* Text-only hero (no portrait) */
+.hero.hero-text { display: block; padding: clamp(72px, 11vw, 150px) 0 clamp(56px, 8vw, 110px); }
+.hero.hero-text .display { font-size: clamp(2.8rem, 8vw, 7.2rem); max-width: none; }
+.display .line { display: block; }
+.nw { white-space: nowrap; }
+.bio-head .portrait img { aspect-ratio: 1140 / 1380; }
