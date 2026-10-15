@@ -8,7 +8,7 @@ import glob, hashlib, json, os, re
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 FIELDS = ["title", "date", "company", "client", "url", "archive_url", "source",
-          "name_as_listed", "role", "summary", "text"]
+          "name_as_listed", "role", "summary", "text", "outlet", "author"]
 
 
 def norm(s):
@@ -44,7 +44,9 @@ def main():
         with open(path) as f:
             data = json.load(f)
         for r in data.get("verified", []):
+            kind = r.get("type") or "press_release"
             r = clean({k: (r.get(k) or "") for k in FIELDS})
+            r["type"] = kind
             if not r["title"]:
                 continue
             key = norm(r["url"]) or f"{norm(r['title'])}|{r['date']}"

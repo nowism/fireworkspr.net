@@ -6,6 +6,10 @@
   const actionBtns = ['export-csv', 'export-json', 'copy-links', 'clear-sel'].map($);
 
   let all = [];
+  let fType = '';
+  const isArticle = (r) => r.type === 'article';
+  const typeLabel = (r) => (isArticle(r) ? 'Article' : 'Press release');
+  const isVideo = (r) => /60 Minutes|CBS This Morning/i.test(r.outlet || '');
   let shown = [];
   const selected = new Set();
 
@@ -33,6 +37,7 @@
     const p = new URLSearchParams(location.search);
     q.value = p.get('q') || '';
     fCompany.value = p.get('company') || '';
+    fType = p.get('type') || '';
     fYear.value = p.get('year') || '';
     fSort.value = p.get('sort') || 'date-desc';
   }
@@ -41,6 +46,7 @@
     const p = new URLSearchParams();
     if (q.value) p.set('q', q.value);
     if (fCompany.value) p.set('company', fCompany.value);
+    if (fType) p.set('type', fType);
     if (fYear.value) p.set('year', fYear.value);
     if (fSort.value !== 'date-desc') p.set('sort', fSort.value);
     const s = p.toString();
@@ -50,6 +56,7 @@
   function render() {
     const terms = q.value.toLowerCase().split(/\s+/).filter(Boolean);
     shown = all.filter((r) =>
+      (!fType || r.type === fType) &&
       (!fCompany.value || r.company === fCompany.value) &&
       (!fYear.value || year(r) === fYear.value) &&
       terms.every((t) => r._hay.includes(t))
@@ -64,15 +71,17 @@
     results.innerHTML = shown.map((r) => `
       <tr class="result${selected.has(r.id) ? ' selected' : ''}" data-id="${esc(r.id)}">
         <td class="c-sel"><input type="checkbox" aria-label="Select: ${esc(r.title)}" ${selected.has(r.id) ? 'checked' : ''}></td>
-        <td class="c-date">${esc(fmtDate(r.date))}</td>
+        <td class="c-date">${esc(fmtDate(r.date))}<span class="kind${isArticle(r) ? ' is-article' : ''}">${typeLabel(r)}</span></td>
         <td class="c-title">
           <button type="button" class="open">${highlight(r.title, terms)}</button>
           ${r.summary ? `<p class="summary">${highlight(r.summary, terms)}</p>` : ''}
         </td>
-        <td class="c-org">${esc(r.client || r.company)}${r.client && r.client !== r.company ? `<span class="via">via ${esc(r.company)}</span>` : ''}</td>
-        <td class="c-name">${esc(r.name_as_listed)}</td>
+        <td class="c-org">${isArticle(r)
+          ? `${esc(r.outlet)}<span class="via">on ${esc(r.company)}</span>`
+          : `${esc(r.client || r.company)}${r.client && r.client !== r.company ? `<span class="via">via ${esc(r.company)}</span>` : ''}`}</td>
+        <td class="c-name">${isArticle(r) ? (r.author ? `By ${esc(r.author)}` : '') : esc(r.name_as_listed)}</td>
         <td class="c-links">
-          ${r.url ? `<a href="${esc(r.url)}" target="_blank" rel="noopener">Original</a>` : ''}
+          ${r.url ? `<a href="${esc(r.url)}" target="_blank" rel="noopener">${isArticle(r) ? (isVideo(r) ? 'Watch' : 'Read') : 'Original'}</a>` : ''}
           ${r.archive_url ? `<a href="${esc(r.archive_url)}" target="_blank" rel="noopener">Archive</a>` : ''}
         </td>
       </tr>`).join('');
@@ -82,7 +91,10 @@
     });
 
     empty.hidden = shown.length > 0 || all.length === 0;
-    countEl.textContent = shown.length === all.length ? `${all.length} releases` : `${shown.length} of ${all.length} releases`;
+    const noun = fType === 'article' ? 'articles' : fType === 'press_release' ? 'press releases' : 'items';
+    const pool = all.filter((r) => !fType || r.type === fType).length;
+    countEl.textContent = shown.length === pool ? `${pool} ${noun}` : `${shown.length} of ${pool} ${noun}`;
+    document.querySelectorAll('.type-tab').forEach((t) => t.setAttribute('aria-selected', String(t.dataset.type === fType)));
     if (all.length === 0) countEl.textContent = 'The archive is being compiled. Check back soon.';
     updateSelection();
     writeState();
@@ -98,10 +110,13 @@
   }
 
   function openReader(r) {
-    $('r-meta').textContent = `${fmtDate(r.date)}, ${org(r)}`;
+    $('r-meta').textContent = isArticle(r)
+      ? [typeLabel(r), r.outlet, r.date && fmtDate(r.date)].filter(Boolean).join(', ')
+      : `${typeLabel(r)}, ${fmtDate(r.date)}, ${org(r)}`;
     $('r-title').textContent = r.title;
     $('r-links').innerHTML = [
-      r.url && `<a href="${esc(r.url)}" target="_blank" rel="noopener">View original</a>`,
+      r.url && `<a href="${esc(r.url)}" target="_blank" rel="noopener">${isArticle(r) ? (isVideo(r) ? 'Watch on ' : 'Read on ') + esc(r.outlet) : 'View original'}</a>`,
+      isArticle(r) && r.author && `<span>By ${esc(r.author)}</span>`,
       r.archive_url && `<a href="${esc(r.archive_url)}" target="_blank" rel="noopener">Archived copy</a>`,
       r.source && `<span>Source: ${esc(r.source)}</span>`,
     ].filter(Boolean).join('');
@@ -119,6 +134,7 @@
     }
     gallery.hidden = !gallery.children.length;
     $('r-text').textContent = r.text || r.summary || 'Full text not stored. Use the links above to read the original.';
+    $('r-text').classList.toggle('short', !r.text);
     $('reader').showModal();
     const u = new URL(location.href); u.searchParams.set('r', r.id); history.replaceState(null, '', u);
     $('reader').scrollTop = 0;
@@ -133,7 +149,7 @@
     setTimeout(() => URL.revokeObjectURL(url), 1000);
   }
 
-  const cols = ['date', 'title', 'company', 'client', 'name_as_listed', 'role', 'url', 'archive_url', 'source', 'summary', 'text'];
+  const cols = ['type', 'date', 'title', 'company', 'client', 'outlet', 'author', 'name_as_listed', 'role', 'url', 'archive_url', 'source', 'summary', 'text'];
   const csvCell = (v) => `"${String(v ?? '').replace(/"/g, '""')}"`;
 
   $('export-csv').onclick = () => download('press-releases.csv', 'text/csv;charset=utf-8',
@@ -180,6 +196,12 @@
   let t;
   q.addEventListener('input', () => { clearTimeout(t); t = setTimeout(render, 120); });
   [fCompany, fYear, fSort].forEach((el) => el.addEventListener('change', render));
+  document.querySelector('.type-tabs').addEventListener('click', (e) => {
+    const t = e.target.closest('.type-tab');
+    if (!t) return;
+    fType = t.dataset.type;
+    render();
+  });
 
   fetch('/press/releases.json')
     .then((r) => r.json())
@@ -187,13 +209,17 @@
       all = (data.releases || []).map((r, i) => ({
         ...r,
         id: r.id || String(i),
-        _hay: [r.title, r.company, r.client, r.summary, r.text, r.date, r.name_as_listed].join(' ').toLowerCase(),
+        _hay: [r.title, r.company, r.client, r.summary, r.text, r.date, r.name_as_listed, r.outlet, r.author, r.type === 'article' ? 'article' : 'press release'].join(' ').toLowerCase(),
       }));
       const companies = [...new Set(all.map((r) => r.company))].sort();
       fCompany.innerHTML += companies.map((c) => `<option>${esc(c)}</option>`).join('');
       const years = [...new Set(all.map(year).filter(Boolean))].sort().reverse();
       fYear.innerHTML += years.map((y) => `<option>${y}</option>`).join('');
       const openId = new URLSearchParams(location.search).get('r');
+      document.querySelectorAll('[data-count]').forEach((el) => {
+        const k = el.dataset.count;
+        el.textContent = all.filter((r) => !k || r.type === k).length;
+      });
       readState();
       render();
       const linked = openId && all.find((x) => x.id === openId);

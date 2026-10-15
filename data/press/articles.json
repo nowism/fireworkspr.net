@@ -1,0 +1,17 @@
+{
+ "verified": [
+  {"type": "article", "title": "Inside Apple’s Insanely Great (or Just Insane) New Mothership", "date": "2017-05-16", "company": "Apple", "client": null,
+   "outlet": "WIRED", "author": "Steven Levy", "url": "https://www.wired.com/2017/05/apple-park-new-silicon-valley-campus/", "archive_url": null, "source": "WIRED",
+   "name_as_listed": "", "role": "", "summary": "Steven Levy’s inside look at Apple Park, Apple’s new Cupertino campus, and the thinking behind its design.", "text": ""},
+  {"type": "article", "title": "The Shape of Things to Come", "date": "2015-02-23", "company": "Apple", "client": null,
+   "outlet": "The New Yorker", "author": "Ian Parker", "url": "https://www.newyorker.com/magazine/2015/02/23/shape-things-come", "archive_url": null, "source": "The New Yorker",
+   "name_as_listed": "", "role": "", "summary": "Ian Parker’s New Yorker profile of Jony Ive and Apple’s design team.", "text": ""},
+  {"type": "article", "title": "Inside Apple", "date": "2015-12-20", "company": "Apple", "client": null,
+   "outlet": "60 Minutes", "author": "", "url": "https://www.cbs.com/shows/video/osliKXNbWi_EECvQTc8w2xrpGsmGVMZs/", "archive_url": null, "source": "CBS (subscription)",
+   "name_as_listed": "", "role": "", "summary": "60 Minutes goes inside Apple. Viewing on CBS requires a subscription.", "text": ""},
+  {"type": "article", "title": "Angela Ahrendts on getting back to human connections", "date": "", "company": "Apple", "client": null,
+   "outlet": "CBS This Morning", "author": "", "url": "https://www.cbsnews.com/video/apple-exec-angela-ahrendts-on-getting-back-to-human-connections/", "archive_url": null, "source": "CBS News",
+   "name_as_listed": "", "role": "", "summary": "Apple’s Angela Ahrendts on CBS This Morning.", "text": ""}
+ ],
+ "unverified": []
+}

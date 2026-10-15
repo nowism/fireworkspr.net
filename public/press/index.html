@@ -12,7 +12,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,300..600;1,300..500&family=Monoton&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/assets/site.css?v=16">
-<link rel="stylesheet" href="/press/press.css?v=8">
+<link rel="stylesheet" href="/press/press.css?v=11">
 <meta property="og:site_name" content="Fireworks PR San Francisco">
 <meta property="og:title" content="Press Release Archive — Fireworks PR">
 <meta property="og:type" content="website">
@@ -35,12 +35,18 @@
   <div class="press-intro">
     <p class="eyebrow">Amy Burke Bessette, 1999–2020</p>
     <h1>The Press <em>Archive</em></h1>
-    <p>Twenty-five years of launches, announcements and news written or handled by Amy Burke Bessette at Williams-Sonoma, RedEnvelope, Spark PR, Apple and Fireworks PR.</p>
+    <p>Twenty-five years of launches, announcements and news written or handled by Amy Burke Bessette at Williams-Sonoma, RedEnvelope, Spark PR, Apple and Fireworks PR, plus selected articles and broadcast features.</p>
+  </div>
+
+  <div class="type-tabs" role="tablist" aria-label="Show">
+    <button type="button" role="tab" class="type-tab" data-type="" aria-selected="true">All <span class="n" data-count=""></span></button>
+    <button type="button" role="tab" class="type-tab" data-type="press_release" aria-selected="false">Press releases <span class="n" data-count="press_release"></span></button>
+    <button type="button" role="tab" class="type-tab" data-type="article" aria-selected="false">Articles <span class="n" data-count="article"></span></button>
   </div>
 
   <div class="toolbar" role="search">
-    <label class="visually-hidden" for="q">Search press releases</label>
-    <input id="q" type="search" placeholder="Search titles, companies and full text…" autocomplete="off">
+    <label class="visually-hidden" for="q">Search the archive</label>
+    <input id="q" type="search" placeholder="Search titles, companies, outlets and full text…" autocomplete="off">
     <label class="visually-hidden" for="f-company">Company</label>
     <select id="f-company"><option value="">All companies</option></select>
     <label class="visually-hidden" for="f-year">Year</label>
@@ -72,9 +78,9 @@
         <tr>
           <th scope="col" class="c-sel"><span class="visually-hidden">Select</span></th>
           <th scope="col" class="c-date"><button type="button" class="sort" data-sort="date">Date</button></th>
-          <th scope="col" class="c-title"><button type="button" class="sort" data-sort="title">Press release</button></th>
+          <th scope="col" class="c-title"><button type="button" class="sort" data-sort="title">Title</button></th>
           <th scope="col" class="c-org"><button type="button" class="sort" data-sort="company">Company</button></th>
-          <th scope="col" class="c-name">Listed as</th>
+          <th scope="col" class="c-name">Contact / byline</th>
           <th scope="col" class="c-links">Links</th>
         </tr>
       </thead>
@@ -108,6 +114,6 @@
   <p class="legal"><a href="mailto:info@fireworkspr.net">© 2026 Fireworks PR, San Francisco</a></p>
 </footer>
 
-<script src="/press/press.js?v=6" defer></script>
+<script src="/press/press.js?v=7" defer></script>
 </body>
 </html>
