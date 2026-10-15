@@ -7,8 +7,9 @@
   --white: #ffffff;
   --gutter: clamp(16px, 2vw, 30px);
   --radius: 0;
-  --serif: "Instrument Serif", "Iowan Old Style", Georgia, serif;
-  --sans: "Instrument Sans", "Helvetica Neue", Arial, sans-serif;
+  --display: "Monoton", "Jost", sans-serif;   /* matches the FIREWORKS logo lettering */
+  --serif: "Jost", "Futura", "Century Gothic", sans-serif;  /* light geometric, like COMMUNICATIONS */
+  --sans: "Jost", "Futura", "Century Gothic", sans-serif;
 }
 
 * { box-sizing: border-box; }
@@ -312,3 +313,43 @@ h1, h2, h3, .display, .h2, .lede, .pull, .eyebrow, .kicker, .role, .nav-link, .t
 
 .contact-direct { margin-top: 2rem; font-size: .95rem; }
 .contact-direct a { color: var(--red); text-underline-offset: 4px; }
+
+/* ---------- Logo-matched typography ---------- */
+body { font-weight: 400; letter-spacing: .005em; }
+.display, .h2, .press-intro h1 {
+  font-family: var(--display); font-weight: 400; text-transform: uppercase;
+  letter-spacing: .01em; line-height: 1.12;
+}
+.display { font-size: clamp(1.9rem, 5vw, 4.6rem); }
+.hero.hero-text .display { font-size: clamp(1.7rem, 5.6vw, 5.2rem); }
+.h2 { font-size: clamp(1.5rem, 2.9vw, 2.6rem); max-width: none; }
+.display em, .h2 em { font-style: normal; color: var(--gold-dark); }
+.band .h2 em { color: var(--gold); }
+
+/* Former serif roles now in light Jost */
+.lede, .pull, .services h3, .engagements strong, .form legend, .form .field-label, .site-footer .foot-brand em {
+  font-weight: 300; letter-spacing: 0;
+}
+.lede { font-size: clamp(1.25rem, 2vw, 1.7rem); line-height: 1.35; }
+.pull { font-size: clamp(1.3rem, 2.1vw, 1.8rem); line-height: 1.35; }
+.services h3 { font-size: 1.35rem; font-weight: 400; line-height: 1.25; }
+.engagements strong { font-size: 1.15rem; font-weight: 400; }
+.form legend, .form .field-label { font-size: 1.35rem; }
+.site-footer .foot-brand em { font-style: normal; font-size: 1.15rem; }
+
+/* Bio photo: small */
+.bio-head { grid-template-columns: 200px 1fr; }
+.bio-head .portrait { max-width: 200px; }
+@media (max-width: 800px) {
+  .bio-head { grid-template-columns: 1fr; }
+  .bio-head .portrait { max-width: 160px; }
+  .nw { white-space: normal; }
+}
+@media (max-width: 800px) {
+  /* Monoton's fine lines blur at small sizes: keep it for page titles only. */
+  .h2 { font-family: var(--sans); font-weight: 400; letter-spacing: .06em; font-size: 1.6rem; line-height: 1.2; }
+  .hero.hero-text .display, .display { font-size: clamp(2.05rem, 8.4vw, 3rem); }
+}
+@media (max-width: 380px) {
+  .hero.hero-text .display, .display, .press-intro h1 { font-size: 1.62rem; }
+}
