@@ -376,3 +376,7 @@ body { font-weight: 400; letter-spacing: .005em; }
   .display, .press-intro h1 { font-size: 1.2rem; }
   .hero.hero-text .display.hero-serif { font-size: 2.1rem; }
 }
+
+/* Section headings +15% */
+.h2 { font-size: clamp(1.2rem, 1.67vw, 1.5rem); }
+@media (max-width: 800px) { .h2 { font-size: 1.1rem; } }
